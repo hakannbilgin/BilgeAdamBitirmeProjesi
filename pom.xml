@@ -1,127 +1,94 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>ba.yzl3414</groupId>
-	<artifactId>GettingStartedJPA</artifactId>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.7.4</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.hakan</groupId>
+	<artifactId>mvc</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<name>HospitalAutomation</name>
+	<description>Demo project for Spring Boot</description>
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-		<hibernate.version>5.5.0.Final</hibernate.version>
-		<hibernate.maven.plugin.version>5.5.0.Final</hibernate.maven.plugin.version>
-		<hibernate.modelgen.version>5.5.0.Final</hibernate.modelgen.version>
-		<validator.version>6.2.0.Final</validator.version>
-		<log4j.version>2.20.0</log4j.version>
+		<java.version>17</java.version>
 	</properties>
-	<profiles>
-		<profile>
-			<id>hibernate-enhance</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.hibernate.orm.tooling</groupId>
-						<artifactId>hibernate-enhance-maven-plugin</artifactId>
-						<version>${hibernate.version}</version>
-						<executions>
-							<execution>
-								<configuration>
-									<failOnError>true</failOnError>
-									<enableLazyInitialization>true</enableLazyInitialization>
-									<enableDirtyTracking>true</enableDirtyTracking>
-									<enableAssociationManagement>false</enableAssociationManagement>
-								</configuration>
-								<goals>
-									<goal>enhance</goal>
-								</goals>
-							</execution>
-						</executions>
-						<dependencies>
-							<dependency>
-								<groupId>javax.transaction</groupId>
-								<artifactId>javax.transaction-api</artifactId>
-								<version>1.2</version>
-							</dependency>
-						</dependencies>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
 	<dependencies>
 		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-api</artifactId>
-			<version>${log4j.version}</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.5.4</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-core</artifactId>
-			<version>${log4j.version}</version>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.12</version>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<version>${hibernate.version}</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
+		
 		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-osgi</artifactId>
-			<version>${hibernate.version}</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-envers</artifactId>
-			<version>${hibernate.version}</version>
+			<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>4.0.1</version>
 		</dependency>
+		
 		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-c3p0</artifactId>
-			<version>${hibernate.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-proxool</artifactId>
-			<version>${hibernate.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-infinispan</artifactId>
-			<version>${hibernate.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.jboss.spec.javax.transaction</groupId>
-					<artifactId>jboss-transaction-api_1.1_spec</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-ehcache</artifactId>
-			<version>${hibernate.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-validator</artifactId>
-			<version>${validator.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-jpamodelgen</artifactId>
-			<version>${hibernate.modelgen.version}</version>
-			<scope>provided</scope>
+			<groupId>javax.cache</groupId>
+			<artifactId>cache-api</artifactId>
+			<version>1.1.1</version>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
 </project>
