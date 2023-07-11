@@ -33,7 +33,7 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
 			@Param("emailParameter") String email,@Param("passwordParameter") String password,@Param("addressParameter") String address);
 	
 	
-	//Mevcut kullanicinin emailine göre sifresini getirir. 		İstek : email	Sonuç : sifre
+	//Mevcut kullanicinin emailine göre sifresini getirir. 		İstek : kimlik numarası	Sonuç : sifre
 	@Query("SELECT password FROM patient  WHERE citizen_number = :citizenNumberParameter")
 	public String  getPatientPassword(@Param("citizenNumberParameter") String citizenNumber);
 		
