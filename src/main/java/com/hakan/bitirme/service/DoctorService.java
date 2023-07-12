@@ -43,7 +43,7 @@ public class DoctorService {
 	}
 
 	// branş ile doktoru bulup getirir.
-	@CachePut(value = "doctor", key = "#patientId")
+	@CachePut(value = "doctor", key = "#doctorBranch")
 	public Doctor selectedDoctorByBranch(String doctorBranch) {
 		return doctorRepository.getDoctorByBranch(doctorBranch);
 
