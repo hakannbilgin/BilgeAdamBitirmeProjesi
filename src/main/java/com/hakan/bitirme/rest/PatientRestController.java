@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hakan.bitirme.domain.Patient;
 import com.hakan.bitirme.service.PatientService;
-import com.hamza.bitirme.model.Kullanici;
 
 @RestController
 @RequestMapping("/rest/patient")
@@ -38,13 +37,12 @@ public class PatientRestController {
 
 	// yeni hasta kaydeder
 	@PostMapping("/postSavePatient")
-		public Patient savePatient(@RequestBody Patient patient) {
-			return patientService.savePatient(patient);
-			
+	public Patient savePatient(@RequestBody Patient patient) {
+		return patientService.savePatient(patient);
+
 	}
-	
-	
-			//HASTA Bilgilerini günceller
+
+	// HASTA Bilgilerini günceller
 	@PutMapping("/putUpdatePatientById/{patientId}")
 	public Patient updatePatient(@RequestBody Patient patient,
 			@PathVariable(name = "patienId", required = true) Long patientId) {
@@ -59,10 +57,33 @@ public class PatientRestController {
 		return patientService.savePatient(savePatient(savedPatient));
 	}
 
-	
-	
+	// İd ye göre hastaları siler
+	@DeleteMapping("/deletePatientById/{patientId}")
+	public Boolean deletePatient(@PathVariable(name = "patientId", required = true) Long patientId) {
+
+		return patientService.deletePatient(patientId) ? true : false;
+
+	}
+
+	// Bütün hastaları siler
+	@RequestMapping("/deletePatient")
+	public Boolean allKullaniciSil() {
+		return patientService.deleteAllPatients() ? true : false;
+	}
+
+	// email ile kullanıcı çağrısı yapar
+	@RequestMapping("/withCitizenNumber")
+	public Patient showForm2(@RequestBody Patient patient) {
+		System.out.println("kimlik no  geldi" + patient.getCitizenNumber());
+		System.out.println("sifre : " + patientService.checkPatientRegister((patient.getCitizenNumber())));
+		return patientService.registeredPatientByCitizenNumber(patient.getCitizenNumber());
+	}
+
+	// email ile kullanıcı sifre çağrısı yapar
+	@RequestMapping("/emailIleSifre")
+	public Patient showForm3(@RequestBody Patient patient) {
+
+		return patientService.registeredPatientByCitizenNumber(patient.getCitizenNumber());
+	}
 
 }
-
-
-

@@ -53,7 +53,7 @@ public class PatientController implements Serializable {
 
 	public void savePatient() {
 
-		if (patientService.patientRegisterControl(patient.getCitizenNumber()) == false) {
+		if (patientService.patientRegisterCheck(patient.getCitizenNumber()) == false) {
 
 			try {
 				this.patientService.savePatient(this.patient);
