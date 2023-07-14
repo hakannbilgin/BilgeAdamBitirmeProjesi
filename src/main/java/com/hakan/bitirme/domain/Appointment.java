@@ -4,9 +4,12 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -27,6 +30,15 @@ public class Appointment {
 	@Column(name = "appointmenId")
 	private long appointmentId;
 
+	@ManyToOne
+	@JoinColumn(name = "this_is_patient_id", foreignKey = @ForeignKey(name= "patient_id_fk"))
+	private Patient patient;
+	
+	
+	@ManyToOne
+	@JoinColumn(name = "this_is_doctor_id", foreignKey = @ForeignKey(name = "doctor_id_fk"))
+	private Doctor doctor;
+	
 	@Column(length = 200, nullable = false, name = "patient_name")
 	private String patientName;
 
