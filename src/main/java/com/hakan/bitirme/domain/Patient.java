@@ -1,5 +1,6 @@
 package com.hakan.bitirme.domain;
 
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,11 +20,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 public class Patient {
-	
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "patientId")
+	@Column(name = "patientid")
 	private long patientId;
 
 	@Column(length = 200, nullable = false, name = "first_name")
@@ -43,5 +43,4 @@ public class Patient {
 
 	@Column(length = 200, nullable = false, name = "address")
 	private String address;
-
 }

@@ -12,6 +12,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+
 @Entity(name = "doctor")
 @Data
 @Table(name = "doctor")
@@ -22,24 +23,15 @@ public class Doctor {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "doctorId")
+	@Column(name = "doctorid")
 	private long doctorId;
 	
-	@Column(length = 200, nullable = false, name = "first_name")
+	@Column(length = 200, nullable = false, name = "firstName")
 	private String firstName;
-
-	@Column(length = 200, nullable = false, name = "last_name")
+//
+	@Column(length = 200, nullable = false, name = "lastName")
 	private String lastName;
-
-	@Column(length = 11,unique = true, nullable = false, name = "citizen_number")
-	private String citizenNumber;
 	
-	@Column(length = 11,unique = true, nullable = false, name =  "branch")
+	@Column(length = 11, nullable = false, name =  "branch")
 	private String branch;
-
-	
-	
-	
-	
-	
 }

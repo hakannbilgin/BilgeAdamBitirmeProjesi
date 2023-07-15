@@ -21,47 +21,53 @@ public class DoctorRestController {
 
 	@Autowired
 	private DoctorService doctorService;
-
-	// doktorları Listeler
-	@GetMapping("/list")
-	public List<Doctor> urunListesiniVer() {
-
-		return doctorService.getDoctorsList();
-	}
-
-	//seçilen doktoru getirir
-	@GetMapping("/select/{doctorId}")
-	public Doctor getDoctor(@PathVariable(name = "doctorId", required = true) Long doctorId) {
-		System.out.println("aaa" + doctorId);
-		System.out.println("bbb" + doctorService.selectedDoctor(doctorId));
-		return doctorService.selectedDoctor(doctorId);
-
-	}
 	
-	@PostMapping("/save")
+	@PostMapping("/saveDoctor")
 	public Doctor saveDoctor(@RequestBody Doctor doctor) {
 
 		return doctorService.saveDoctor(doctor);
 	}
+	
+	
+	// doktorları Listeler
+		@GetMapping("/getDoctors")
+		public List<Doctor> getDoctorList() {
 
-	@PutMapping("/update/{doctorId}")
-	public Doctor updateDoctor(@RequestBody Doctor doctor,
-			@PathVariable(name = "doctorId", required = true) Long doctorId) {
+			return doctorService.getDoctorsList();
+		}
+		
+		//seçilen doktoru getirir
+		@GetMapping("/getDoctorById/{doctorId}")
+		public Doctor getDoctorById(@PathVariable(name = "doctorId", required = true) Long doctorId) {
 
-		Doctor savedDoctor = doctorService.selectedDoctor(doctorId);
+			return doctorService.selectedDoctor(doctorId);
 
-//		savedDoctor.setUrunaciklama(urun.getUrunaciklama());
-//		savedDoctor.setUrunadi(urun.getUrunadi());
-		savedDoctor.setBranch(doctor.getBranch());
+		}
+		
+		//seçilen doktoru getirir
+				@GetMapping("/getDoctorByBranch/{branch}")
+				public List<Doctor> getDoctor(@PathVariable(name = "branch", required = true) String branch) {
 
-		return doctorService.saveDoctor(savedDoctor);
-	}
+					return doctorService.getDoctorsListByBranch(branch);
 
-	@DeleteMapping("/delete/{doctorId}")
-	public Boolean deleteDoctor(@PathVariable(required = true) Long doctorId) {
+				}
+		
+		@PutMapping("/updateDoctorBranch/{doctorId}")
+		public Doctor updateDoctorBranch(@RequestBody Doctor doctor,
+				@PathVariable(name = "doctorId", required = true) Long doctorId) {
 
-		return doctorService.deleteDoctor(doctorId) ? true : false;
+			Doctor savedDoctor = doctorService.selectedDoctor(doctorId);
 
-	}
+			savedDoctor.setBranch(doctor.getBranch());
 
+			return doctorService.saveDoctor(savedDoctor);
+		}
+		
+		@DeleteMapping("/deleteDoctorById/{doctorId}")
+		public Boolean deleteDoctorById(@PathVariable(required = true) Long doctorId) {
+
+			return doctorService.deleteDoctorByID(doctorId) ? true : false;
+
+		}
+		
 }

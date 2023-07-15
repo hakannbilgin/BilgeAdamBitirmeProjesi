@@ -25,33 +25,35 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = false)
 public class Appointment {
 
+	
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "appointmenId")
+	@Column(name = "appointmenid")
 	private long appointmentId;
+//	
+//	@ManyToOne
+//	@JoinColumn(name = "thisIsPatientId", foreignKey = @ForeignKey(name = "patientIdFk"))
+//	private Patient patient;
+//
+//	@ManyToOne
+//	@JoinColumn(name = "thisIsDoctorId", foreignKey = @ForeignKey(name = "doctorIdFk"))
+//	private Doctor doctor;
 
-	@ManyToOne
-	@JoinColumn(name = "this_is_patient_id", foreignKey = @ForeignKey(name= "patient_id_fk"))
-	private Patient patient;
-	
-	
-	@ManyToOne
-	@JoinColumn(name = "this_is_doctor_id", foreignKey = @ForeignKey(name = "doctor_id_fk"))
-	private Doctor doctor;
-	
-	@Column(length = 200, nullable = false, name = "patient_name")
+	@Column(length = 200, nullable = false, name = "patientName")
 	private String patientName;
 
-	@Column(length = 200, nullable = false, name = "doctor_name")
+	@Column(length = 200, nullable = false, name = "doctorName")
 	private String doctorName;
 
-	@Column(length = 200, nullable = false, name = "doctor_branch")
+	@Column(length = 200, nullable = false, name = "doctorBranch")
 	private String doctorBranch;
 
-	@Column(nullable = false, name = "appointment_date")
+	@Column(nullable = false, name = "appointmentDate")
 	private LocalDate appointmentDate;
 
-	@Column(length = 2, nullable = false, name = "appointmen_time")
+	@Column(length = 2, nullable = false, name = "appointmenTime")
 	private int appointmentTime;
-
+	
+	
 }

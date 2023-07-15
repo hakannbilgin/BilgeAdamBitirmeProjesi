@@ -18,22 +18,8 @@ import com.hakan.bitirme.service.PatientService;
 @RestController
 @RequestMapping("/rest/patient")
 public class PatientRestController {
-
 	@Autowired
 	private PatientService patientService;
-
-	// Bütün hastaları getirir Getirir
-	@GetMapping("/getPatients")
-	private List<Patient> getPatientsList() {
-
-		return patientService.getPatientList();
-	}
-
-	// id ye göre hasta getirir
-	@GetMapping("/getPatientById/{patientId}")
-	private Patient patientById(@PathVariable(name = "patientId", required = true) Long patientId) {
-		return patientService.selectedPatient(patientId);
-	}
 
 	// yeni hasta kaydeder
 	@PostMapping("/postSavePatient")
@@ -42,11 +28,16 @@ public class PatientRestController {
 
 	}
 
+	// id ye göre hasta getirir
+	@GetMapping("/getPatientById/{patientId}")
+	private Patient patientById(@PathVariable(name = "patientId", required = true) Long patientId) {
+		return patientService.selectedPatient(patientId);
+	}
+
 	// HASTA Bilgilerini günceller
 	@PutMapping("/putUpdatePatientById/{patientId}")
 	public Patient updatePatient(@RequestBody Patient patient,
-			@PathVariable(name = "patienId", required = true) Long patientId) {
-
+			@PathVariable(name = "patientId", required = true) Long patientId) {
 		Patient savedPatient = patientService.selectedPatient(patientId);
 
 		savedPatient.setFirstName(patient.getFirstName());
@@ -54,36 +45,35 @@ public class PatientRestController {
 		savedPatient.setEmail(patient.getEmail());
 		savedPatient.setPassword(patient.getPassword());
 
-		return patientService.savePatient(savePatient(savedPatient));
+		return patientService.savePatient(savedPatient);
 	}
 
+	// Bütün hastaları getirir Getirir
+	@GetMapping("/getPatients")
+	private List<Patient> getPatientsList() {
+
+		return patientService.getPatientList();
+	}
+
+	
 	// İd ye göre hastaları siler
-	@DeleteMapping("/deletePatientById/{patientId}")
-	public Boolean deletePatient(@PathVariable(name = "patientId", required = true) Long patientId) {
+		@DeleteMapping("/deletePatientById/{patientId}")
+		public Boolean deletePatient(@PathVariable(name = "patientId", required = true) Long patientId) {
 
-		return patientService.deletePatient(patientId) ? true : false;
+			return patientService.deletePatient(patientId) ? true : false;
 
-	}
-
+		}
+		
+		
 	// Bütün hastaları siler
-	@RequestMapping("/deletePatient")
-	public Boolean allKullaniciSil() {
+	@RequestMapping("/deleteAllPatients")
+	public Boolean deleteAllPatients() {
 		return patientService.deleteAllPatients() ? true : false;
 	}
 
-	// email ile kullanıcı çağrısı yapar
-	@RequestMapping("/withCitizenNumber")
-	public Patient showForm2(@RequestBody Patient patient) {
-		System.out.println("kimlik no  geldi" + patient.getCitizenNumber());
-		System.out.println("sifre : " + patientService.checkPatientRegister((patient.getCitizenNumber())));
-		return patientService.registeredPatientByCitizenNumber(patient.getCitizenNumber());
-	}
-
-	// email ile kullanıcı sifre çağrısı yapar
-	@RequestMapping("/emailIleSifre")
-	public Patient showForm3(@RequestBody Patient patient) {
-
-		return patientService.registeredPatientByCitizenNumber(patient.getCitizenNumber());
-	}
-
+	// id ye göre hasta getirir
+		@GetMapping("/getPatientByCitizenNumber/{citizenNumber}")
+		private Patient getPatientByCitizenNumber(@PathVariable(name = "citizenNumber", required = true) String CitizenNumber) {
+			return patientService.getPatientByCitizenNumber(CitizenNumber);
+		}
 }
