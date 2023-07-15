@@ -24,11 +24,11 @@ public class DoctorService {
 	@Getter
 	@Setter
 	private DoctorRepository doctorRepository;
-	
+
 	public List<Doctor> getDoctorsListByBranch(String branch) {
 		return doctorRepository.findDoctorsByBranch(branch);
 	}
-	
+
 	@Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRES_NEW)
 	@CacheEvict(allEntries = true, cacheNames = { "doctors_list", "doctors" })
 	public Doctor saveDoctor(Doctor doctor) {
@@ -48,19 +48,19 @@ public class DoctorService {
 		return doctorRepository.getDoctorById(doctorId);
 
 	}
-	
-	// branş ile doktoru bulup getirir.
-		@CachePut(value = "doctor", key = "#doctorBranch")
-		public Doctor selectedDoctorByBranch(String doctorBranch) {
-			return doctorRepository.getDoctorByBranch(doctorBranch);
 
-		}
-		
-		// seçili doktoru id si ile siler
-		@Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRES_NEW)
-		@CacheEvict(key = "#doctorId", allEntries = true, cacheNames = { "doctor_list", "doctors" })
-		public Boolean deleteDoctorByID(Long doctorId) {
-			doctorRepository.deleteById(doctorId);
-			return true;
-		}
+	// branş ile doktoru bulup getirir.
+	@CachePut(value = "doctor", key = "#doctorBranch")
+	public Doctor selectedDoctorByBranch(String doctorBranch) {
+		return doctorRepository.getDoctorByBranch(doctorBranch);
+
+	}
+
+	// seçili doktoru id si ile siler
+	@Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRES_NEW)
+	@CacheEvict(key = "#doctorId", allEntries = true, cacheNames = { "doctor_list", "doctors" })
+	public Boolean deleteDoctorByID(Long doctorId) {
+		doctorRepository.deleteById(doctorId);
+		return true;
+	}
 }

@@ -29,7 +29,7 @@ public class AppointmentRestController {
 		return appointmentService.saveAppointment(appointment);
 	}
 
-	// seçilen randevuyu getirir getirir
+	// seçilen randevuyu getirir 
 	@GetMapping("/selectAppointment/{appointmentId}")
 	public Appointment getAppointmentById(@PathVariable(name = "appointmentId", required = true) Long appointmentId) {
 		return appointmentService.selectedAppointmentbyId(appointmentId);
