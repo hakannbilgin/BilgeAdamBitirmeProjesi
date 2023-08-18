@@ -2,6 +2,8 @@ package com.hakan.bitirme.service;
 
 import java.util.List;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -12,7 +14,12 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hakan.bitirme.dal.AppointmentRepository;
+import com.hakan.bitirme.dal.DoctorRepository;
+import com.hakan.bitirme.dal.PatientRepository;
 import com.hakan.bitirme.domain.Appointment;
+import com.hakan.bitirme.domain.Doctor;
+import com.hakan.bitirme.domain.Patient;
+import com.hakan.bitirme.dto.appointmentdto.AppointmentDTO;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -24,6 +31,16 @@ public class AppointmentService {
 	@Getter
 	@Setter
 	private AppointmentRepository appointmentRepository;
+
+//	@Autowired
+//	@Getter
+//	@Setter
+//	private PatientRepository patientRepository;
+//
+//	@Autowired
+//	@Getter
+//	@Setter
+//	private DoctorRepository doctorRepository;
 
 	// randevu kayıt eder
 	@Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRES_NEW)
@@ -76,5 +93,23 @@ public class AppointmentService {
 		}
 
 	}
+
+//	// randevu kayıt eder
+//	@Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRES_NEW)
+//	@CacheEvict(allEntries = true, cacheNames = { "appointment_list", "appointments" })
+//	public Appointment saveAppointment2(AppointmentDTO appointmentDTO) {
+//
+//		Appointment appointment = new Appointment();
+//		appointment.setAppointmentDate(appointmentDTO.getAppointmentLocalDate());
+//		
+//		Patient patient = patientRepository.findById(appointmentDTO.getPatientId()).orElseThrow(() -> new EntityNotFoundException("Patient not found"));
+//        appointment.setPatient(patient);
+//
+//        Doctor doctor = doctorRepository.findById(appointmentDTO.getDoctorId()).orElseThrow(() -> new EntityNotFoundException("Doctor not found"));
+//        appointment.setDoctor(doctor);
+//
+//
+//		return appointmentRepository.save(appointment);
+//	}
 
 }

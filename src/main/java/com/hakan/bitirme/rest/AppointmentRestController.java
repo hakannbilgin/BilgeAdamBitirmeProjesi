@@ -3,6 +3,8 @@ package com.hakan.bitirme.rest;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,7 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hakan.bitirme.domain.Appointment;
 import com.hakan.bitirme.domain.Patient;
+import com.hakan.bitirme.dto.appointmentdto.AppointmentDTO;
 import com.hakan.bitirme.service.AppointmentService;
+import com.hakan.bitirme.service.DoctorService;
+import com.hakan.bitirme.service.PatientService;
 
 @RestController
 @RequestMapping("/rest/appointment")
@@ -29,13 +34,13 @@ public class AppointmentRestController {
 		return appointmentService.saveAppointment(appointment);
 	}
 
-	// seçilen randevuyu getirir 
+	// seçilen randevuyu getirir
 	@GetMapping("/selectAppointment/{appointmentId}")
 	public Appointment getAppointmentById(@PathVariable(name = "appointmentId", required = true) Long appointmentId) {
 		return appointmentService.selectedAppointmentbyId(appointmentId);
 
 	}
-	
+
 	@PutMapping("/updateAppointment/{AppointmentId}")
 	public Appointment updateAppointment(@RequestBody Appointment appointment,
 			@PathVariable(name = "AppointmentId", required = true) Long AppointmentId) {
@@ -44,12 +49,10 @@ public class AppointmentRestController {
 
 		savedAppointment.setAppointmentDate(appointment.getAppointmentDate());
 		savedAppointment.setAppointmentTime(appointment.getAppointmentTime());
-		
-		
-	
+
 		return appointmentService.saveAppointment(savedAppointment);
 	}
-	
+
 	// Randevuları Listeler
 	@GetMapping("/getAppointments")
 	public List<Appointment> getAppointmentList() {
@@ -63,7 +66,17 @@ public class AppointmentRestController {
 		return appointmentService.deleteAppointmentbyId(AppointmentId) ? true : false;
 
 	}
-	
-	
+
+//	@PostMapping("/saveAppointmentDeneme")
+//	public ResponseEntity<String> saveAppointmentDeneme(@RequestBody AppointmentDTO appointmentDTO) {
+//
+//		try {
+//			appointmentService.saveAppointment2(appointmentDTO); // Servis katmanında işlemleri gerçekleştirir
+//			return ResponseEntity.ok("Appointment saved successfully");
+//		} catch (Exception e) {
+//			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
+//		}
+//
+//	}
 
 }

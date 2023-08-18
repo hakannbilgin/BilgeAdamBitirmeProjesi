@@ -31,14 +31,14 @@ public class Appointment {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "appointmenid")
 	private long appointmentId;
-//	
-//	@ManyToOne
-//	@JoinColumn(name = "thisIsPatientId", foreignKey = @ForeignKey(name = "patientIdFk"))
-//	private Patient patient;
-//
-//	@ManyToOne
-//	@JoinColumn(name = "thisIsDoctorId", foreignKey = @ForeignKey(name = "doctorIdFk"))
-//	private Doctor doctor;
+	
+	@ManyToOne
+	@JoinColumn(name = "thisIsPatientId", foreignKey = @ForeignKey(name = "patientIdFk"))
+	private Patient patient;
+
+	@ManyToOne
+	@JoinColumn(name = "thisIsDoctorId", foreignKey = @ForeignKey(name = "doctorIdFk"))
+	private Doctor doctor;
 
 	@Column(length = 200, nullable = false, name = "patientName")
 	private String patientName;
