@@ -32,15 +32,15 @@ public class AppointmentService {
 	@Setter
 	private AppointmentRepository appointmentRepository;
 
-//	@Autowired
-//	@Getter
-//	@Setter
-//	private PatientRepository patientRepository;
-//
-//	@Autowired
-//	@Getter
-//	@Setter
-//	private DoctorRepository doctorRepository;
+	@Autowired
+	@Getter
+	@Setter
+	private PatientRepository patientRepository;
+
+	@Autowired
+	@Getter
+	@Setter
+	private DoctorRepository doctorRepository;
 
 	// randevu kayıt eder
 	@Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRES_NEW)
@@ -94,22 +94,16 @@ public class AppointmentService {
 
 	}
 
-//	// randevu kayıt eder
-//	@Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRES_NEW)
-//	@CacheEvict(allEntries = true, cacheNames = { "appointment_list", "appointments" })
-//	public Appointment saveAppointment2(AppointmentDTO appointmentDTO) {
-//
-//		Appointment appointment = new Appointment();
-//		appointment.setAppointmentDate(appointmentDTO.getAppointmentLocalDate());
-//		
-//		Patient patient = patientRepository.findById(appointmentDTO.getPatientId()).orElseThrow(() -> new EntityNotFoundException("Patient not found"));
-//        appointment.setPatient(patient);
-//
-//        Doctor doctor = doctorRepository.findById(appointmentDTO.getDoctorId()).orElseThrow(() -> new EntityNotFoundException("Doctor not found"));
-//        appointment.setDoctor(doctor);
-//
-//
-//		return appointmentRepository.save(appointment);
-//	}
+	// randevu kayıt eder
+	@Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRES_NEW)
+	@CacheEvict(allEntries = true, cacheNames = { "appointment_list", "appointments" })
+	public Appointment saveAppointment3(Appointment appointment, Doctor doctor, Patient patient) {
+
+		appointment.setDoctor(doctorRepository.save(doctor));
+		appointment.setPatient(patientRepository.save(patient));
+		
+
+		return appointmentRepository.save(appointment);
+	}
 
 }

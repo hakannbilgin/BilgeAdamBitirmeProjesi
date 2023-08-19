@@ -2,38 +2,92 @@ package com.hakan.bitirme.dto.appointmentdto;
 
 import java.time.LocalDate;
 
+import com.hakan.bitirme.domain.Doctor;
+import com.hakan.bitirme.domain.Patient;
+
 public class AppointmentDTO {
 
 	
-	private Long patientId;
+	private long appointmentId;
 	
-	private Long doctorId;
+	private Patient patient;
 	
-	private LocalDate appointmentLocalDate;
+	private Doctor doctor;
+	
+	private String patientName;
+	
+	private String doctorName;
+	
+	private String doctorBranch;
+	
+	private LocalDate appointmentDate;
+	
+	private int appointmentTime;
 
-	public Long getPatientId() {
-		return patientId;
+	public long getAppointmentId() {
+		return appointmentId;
 	}
 
-	public void setPatientId(Long patientId) {
-		this.patientId = patientId;
+	public void setAppointmentId(long appointmentId) {
+		this.appointmentId = appointmentId;
 	}
 
-	public Long getDoctorId() {
-		return doctorId;
+	public Patient getPatient() {
+		return patient;
 	}
 
-	public void setDoctorId(Long doctorId) {
-		this.doctorId = doctorId;
+	public void setPatient(Patient patient) {
+		this.patient = patient;
 	}
 
-	public LocalDate getAppointmentLocalDate() {
-		return appointmentLocalDate;
+	public Doctor getDoctor() {
+		return doctor;
 	}
 
-	public void setAppointmentLocalDate(LocalDate appointmentLocalDate) {
-		this.appointmentLocalDate = appointmentLocalDate;
+	public void setDoctor(Doctor doctor) {
+		this.doctor = doctor;
+	}
+
+	public String getPatientName() {
+		return patientName;
+	}
+
+	public void setPatientName(String patientName) {
+		this.patientName = patientName;
+	}
+
+	public String getDoctorName() {
+		return doctorName;
+	}
+
+	public void setDoctorName(String doctorName) {
+		this.doctorName = doctorName;
+	}
+
+	public String getDoctorBranch() {
+		return doctorBranch;
+	}
+
+	public void setDoctorBranch(String doctorBranch) {
+		this.doctorBranch = doctorBranch;
+	}
+
+	public LocalDate getAppointmentDate() {
+		return appointmentDate;
+	}
+
+	public void setAppointmentDate(LocalDate appointmentDate) {
+		this.appointmentDate = appointmentDate;
+	}
+
+	public int getAppointmentTime() {
+		return appointmentTime;
+	}
+
+	public void setAppointmentTime(int appointmentTime) {
+		this.appointmentTime = appointmentTime;
 	}
     
+	
 	
 }

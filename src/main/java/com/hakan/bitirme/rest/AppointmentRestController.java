@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hakan.bitirme.domain.Appointment;
+import com.hakan.bitirme.domain.Doctor;
 import com.hakan.bitirme.domain.Patient;
 import com.hakan.bitirme.dto.appointmentdto.AppointmentDTO;
 import com.hakan.bitirme.service.AppointmentService;
@@ -67,16 +68,9 @@ public class AppointmentRestController {
 
 	}
 
-//	@PostMapping("/saveAppointmentDeneme")
-//	public ResponseEntity<String> saveAppointmentDeneme(@RequestBody AppointmentDTO appointmentDTO) {
-//
-//		try {
-//			appointmentService.saveAppointment2(appointmentDTO); // Servis katmanında işlemleri gerçekleştirir
-//			return ResponseEntity.ok("Appointment saved successfully");
-//		} catch (Exception e) {
-//			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
-//		}
-//
-//	}
+	@PostMapping("/saveAppointment3")
+	public Appointment saveAppointment3(@RequestBody Appointment appointment) {
 
+		return appointmentService.saveAppointment3(appointment, appointment.getDoctor(), appointment.getPatient());
+	}
 }
