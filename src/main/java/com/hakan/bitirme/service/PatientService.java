@@ -1,6 +1,7 @@
 package com.hakan.bitirme.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -13,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hakan.bitirme.dal.PatientRepository;
 import com.hakan.bitirme.domain.Patient;
+import com.hakan.bitirme.dto.patientdto.PatientDTO;
+import com.hakan.bitirme.dto.patientdto.PatientMapper;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -24,7 +27,16 @@ public class PatientService {
 	@Setter
 	private PatientRepository patientRepository;
 
-	// hasta kayıt eder
+	@Getter
+	@Setter
+	private PatientMapper patientMapper;
+
+	@Autowired
+	public PatientService(PatientMapper mapper) {
+		this.patientMapper = mapper;
+	}
+
+//	// hasta kayıt eder
 	@Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRES_NEW)
 	@CacheEvict(allEntries = true, cacheNames = { "patient_List", "patients" })
 	public Patient savePatient(Patient patient) {
@@ -32,10 +44,10 @@ public class PatientService {
 	}
 
 	// hsataların hepsini getirir
-	@Cacheable(value = "patient_List")
-	public List<Patient> getPatientList() {
-		return patientRepository.findAll();
-	}
+//	@Cacheable(value = "patient_List")
+//	public List<Patient> getPatientList() {
+//		return patientRepository.findAll();
+//	}
 
 	// İd ile hastayı bulup getirir.
 	@CachePut(value = "patients", key = "#patientId")
@@ -43,7 +55,7 @@ public class PatientService {
 		return patientRepository.getPatientById(patientId);
 	}
 
-	// KullaniId si ile hastayı siler
+	// KullaniId si ile hastayı siler KALIYOR
 	@Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRES_NEW)
 	@CacheEvict(key = "#patientId", allEntries = true, cacheNames = { "patient_List", "patients" })
 	public Boolean deletePatient(Long patientId) {
@@ -51,7 +63,7 @@ public class PatientService {
 		return true;
 	}
 
-	// Bütün hastaları siler
+	// Bütün hastaları siler KALIYOR
 	@Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRES_NEW)
 	@CacheEvict(key = "#patientId", allEntries = true, cacheNames = { "patient_List", "patients" })
 	public Boolean deleteAllPatients() {
@@ -59,7 +71,7 @@ public class PatientService {
 		return true;
 	}
 
-	// kimlik no'Ya göre hasta sifresini getirir.
+	// kimlik no'Ya göre hasta sifresini getirir. TODO: DTO İLE YAPILACAK
 	public String getSelectedPatientPassword(String citizenNumber) {
 		return patientRepository.getPatientPassword(citizenNumber);
 	}
@@ -67,6 +79,7 @@ public class PatientService {
 	// Kullanici kimlik nosuna göre kayıtlı kullanıcı var mı yok mu ona bakar. Var
 	// ise
 	// true döner yok ise false döner
+//	KALIYOR
 	public boolean patientRegisterCheck(String citizenNumber) {
 		if (patientRepository.getPatientPassword(citizenNumber) != null) {
 			return true;
@@ -102,4 +115,20 @@ public class PatientService {
 
 		return patientRepository.getPatientByCitizenNumber(citizenNumber);
 	}
+
+	@Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRES_NEW)
+	@CacheEvict(allEntries = true, cacheNames = { "patient_List", "patients" })
+	public Patient savePatientWithDTO(PatientDTO patientDTO) {
+		Patient patient = patientMapper.toEntity(patientDTO);
+		return patientRepository.save(patient);
+	}
+
+	// hsataların hepsini getirir
+	@Cacheable(value = "patient_List")
+	public List<PatientDTO> getPatientListWithDTO() {
+		List<Patient> patients = patientRepository.findAll();
+		return patientMapper.mapToDTOList(patients);
+	}
+
+
 }

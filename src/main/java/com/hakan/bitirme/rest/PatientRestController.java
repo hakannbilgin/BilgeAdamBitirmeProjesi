@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hakan.bitirme.domain.Patient;
+import com.hakan.bitirme.dto.patientdto.PatientDTO;
 import com.hakan.bitirme.service.PatientService;
 
 @RestController
@@ -21,12 +22,12 @@ public class PatientRestController {
 	@Autowired
 	private PatientService patientService;
 
-	// yeni hasta kaydeder
-	@PostMapping("/postSavePatient")
-	public Patient savePatient(@RequestBody Patient patient) {
-		return patientService.savePatient(patient);
-
-	}
+//	// yeni hasta kaydeder
+//	@PostMapping("/postSavePatient")
+//	public Patient savePatient(@RequestBody Patient patient) {
+//		return patientService.savePatient(patient);
+//
+//	}
 
 	// id ye göre hasta getirir
 	@GetMapping("/getPatientById/{patientId}")
@@ -49,11 +50,11 @@ public class PatientRestController {
 	}
 
 	// Bütün hastaları getirir Getirir
-	@GetMapping("/getPatients")
-	private List<Patient> getPatientsList() {
-
-		return patientService.getPatientList();
-	}
+//	@GetMapping("/getPatients")
+//	private List<Patient> getPatientsList() {
+//
+//		return patientService.getPatientList();
+//	}
 
 	
 	// İd ye göre hastaları siler
@@ -76,4 +77,35 @@ public class PatientRestController {
 		private Patient getPatientByCitizenNumber(@PathVariable(name = "citizenNumber", required = true) String CitizenNumber) {
 			return patientService.getPatientByCitizenNumber(CitizenNumber);
 		}
+		
+		// yeni hasta kaydeder
+		@PostMapping("/postSavePatientDTO")
+		public Patient savePatientWith(@RequestBody PatientDTO dto) {
+			return patientService.savePatientWithDTO(dto);
+
+		}
+		
+		@GetMapping("/getPatientsDTO")
+		private List<PatientDTO> getPatientsListWith() {
+
+			return patientService.getPatientListWithDTO();
+		}
+		
+		
+//		@PutMapping("/putUpdatePatientById/{patientId}")
+//		public Patient updatePatient(@RequestBody PatientDTO patientDTO,
+//				@PathVariable(name = "patientId", required = true) Long patientId) {
+//			
+//			Patient savedPatient = patientService.selectedPatient(patientId);
+//
+//			savedPatient.setFirstName(patientDTO.getFirstName());
+//			savedPatient.setLastName(patientDTO.getLastName());
+//			savedPatient.setEmail(patientDTO.getEmail());
+//			savedPatient.setPassword(patientDTO.getPassword());
+//
+//			return patientService.savePatient(savedPatient);
+//		}
+		
+		
+		
 }
