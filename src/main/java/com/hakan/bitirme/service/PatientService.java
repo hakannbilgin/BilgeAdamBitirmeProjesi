@@ -123,12 +123,24 @@ public class PatientService {
 		return patientRepository.save(patient);
 	}
 
+	
+	@CachePut(value = "patients", key = "#patientId")
+	public PatientDTO selectedPatientWithDTO(Long patientId) {
+
+		Patient patient = patientRepository.getPatientById(patientId);
+		if (patient == null) {
+			System.out.println("Patient was not found");
+			return null;
+		}
+
+		return patientMapper.toDTO(patient);
+	}
+
 	// hsataların hepsini getirir
 	@Cacheable(value = "patient_List")
 	public List<PatientDTO> getPatientListWithDTO() {
 		List<Patient> patients = patientRepository.findAll();
 		return patientMapper.mapToDTOList(patients);
 	}
-
 
 }

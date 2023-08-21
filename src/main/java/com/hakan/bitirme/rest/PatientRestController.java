@@ -30,24 +30,24 @@ public class PatientRestController {
 //	}
 
 	// id ye göre hasta getirir
-	@GetMapping("/getPatientById/{patientId}")
-	private Patient patientById(@PathVariable(name = "patientId", required = true) Long patientId) {
-		return patientService.selectedPatient(patientId);
-	}
+//	@GetMapping("/getPatientById/{patientId}")
+//	private Patient patientById(@PathVariable(name = "patientId", required = true) Long patientId) {
+//		return patientService.selectedPatient(patientId);
+//	}
 
 	// HASTA Bilgilerini günceller
-	@PutMapping("/putUpdatePatientById/{patientId}")
-	public Patient updatePatient(@RequestBody Patient patient,
-			@PathVariable(name = "patientId", required = true) Long patientId) {
-		Patient savedPatient = patientService.selectedPatient(patientId);
-
-		savedPatient.setFirstName(patient.getFirstName());
-		savedPatient.setLastName(patient.getLastName());
-		savedPatient.setEmail(patient.getEmail());
-		savedPatient.setPassword(patient.getPassword());
-
-		return patientService.savePatient(savedPatient);
-	}
+//	@PutMapping("/putUpdatePatientById/{patientId}")
+//	public Patient updatePatient(@RequestBody Patient patient,
+//			@PathVariable(name = "patientId", required = true) Long patientId) {
+//		Patient savedPatient = patientService.selectedPatient(patientId);
+//
+//		savedPatient.setFirstName(patient.getFirstName());
+//		savedPatient.setLastName(patient.getLastName());
+//		savedPatient.setEmail(patient.getEmail());
+//		savedPatient.setPassword(patient.getPassword());
+//
+//		return patientService.savePatient(savedPatient);
+//	}
 
 	// Bütün hastaları getirir Getirir
 //	@GetMapping("/getPatients")
@@ -56,16 +56,14 @@ public class PatientRestController {
 //		return patientService.getPatientList();
 //	}
 
-	
 	// İd ye göre hastaları siler
-		@DeleteMapping("/deletePatientById/{patientId}")
-		public Boolean deletePatient(@PathVariable(name = "patientId", required = true) Long patientId) {
+	@DeleteMapping("/deletePatientById/{patientId}")
+	public Boolean deletePatient(@PathVariable(name = "patientId", required = true) Long patientId) {
 
-			return patientService.deletePatient(patientId) ? true : false;
+		return patientService.deletePatient(patientId) ? true : false;
 
-		}
-		
-		
+	}
+
 	// Bütün hastaları siler
 	@RequestMapping("/deleteAllPatients")
 	public Boolean deleteAllPatients() {
@@ -73,39 +71,45 @@ public class PatientRestController {
 	}
 
 	// id ye göre hasta getirir
-		@GetMapping("/getPatientByCitizenNumber/{citizenNumber}")
-		private Patient getPatientByCitizenNumber(@PathVariable(name = "citizenNumber", required = true) String CitizenNumber) {
-			return patientService.getPatientByCitizenNumber(CitizenNumber);
-		}
-		
-		// yeni hasta kaydeder
-		@PostMapping("/postSavePatientDTO")
-		public Patient savePatientWith(@RequestBody PatientDTO dto) {
-			return patientService.savePatientWithDTO(dto);
+	@GetMapping("/getPatientByCitizenNumber/{citizenNumber}")
+	private Patient getPatientByCitizenNumber(
+			@PathVariable(name = "citizenNumber", required = true) String CitizenNumber) {
+		return patientService.getPatientByCitizenNumber(CitizenNumber);
+	}
 
-		}
-		
-		@GetMapping("/getPatientsDTO")
-		private List<PatientDTO> getPatientsListWith() {
+	// yeni hasta kaydeder
+	@PostMapping("/postSavePatientDTO")
+	public Patient savePatientWith(@RequestBody PatientDTO dto) {
+		return patientService.savePatientWithDTO(dto);
 
-			return patientService.getPatientListWithDTO();
-		}
-		
-		
-//		@PutMapping("/putUpdatePatientById/{patientId}")
-//		public Patient updatePatient(@RequestBody PatientDTO patientDTO,
-//				@PathVariable(name = "patientId", required = true) Long patientId) {
-//			
-//			Patient savedPatient = patientService.selectedPatient(patientId);
-//
-//			savedPatient.setFirstName(patientDTO.getFirstName());
-//			savedPatient.setLastName(patientDTO.getLastName());
-//			savedPatient.setEmail(patientDTO.getEmail());
-//			savedPatient.setPassword(patientDTO.getPassword());
-//
-//			return patientService.savePatient(savedPatient);
-//		}
-		
-		
-		
+	}
+
+	@GetMapping("/getPatientByIdDTO/{patientId}")
+	private PatientDTO patientByIdWith(@PathVariable(name = "patientId", required = true) Long patientId) {
+
+		return patientService.selectedPatientWithDTO(patientId);
+	}
+
+	@GetMapping("/getPatientsDTO")
+	private List<PatientDTO> getPatientsListWith() {
+
+		return patientService.getPatientListWithDTO();
+	}
+
+	@PutMapping("/putUpdatePatientByIdDTO/{patientId}")
+	public Patient updatePatientDTO(@RequestBody PatientDTO patientDTO,
+			@PathVariable(name = "patientId", required = true) Long patientId) {
+
+		PatientDTO savedPatient = patientService.selectedPatientWithDTO(patientId);
+
+		savedPatient.setFirstName(patientDTO.getFirstName());
+		savedPatient.setLastName(patientDTO.getLastName());
+		savedPatient.setEmail(patientDTO.getEmail());
+		savedPatient.setPassword(patientDTO.getPassword());
+
+		return patientService.savePatientWithDTO(savedPatient);
+	}
+
+	
+	
 }
