@@ -28,6 +28,8 @@ public class AppointmentRestController {
 
 	@Autowired
 	private AppointmentService appointmentService;
+	
+	
 
 	@PostMapping("/saveAppointment")
 	public Appointment saveAppointment(@RequestBody Appointment appointment) {
@@ -73,4 +75,37 @@ public class AppointmentRestController {
 
 		return appointmentService.saveAppointment3(appointment, appointment.getDoctor(), appointment.getPatient());
 	}
+	
+	@PostMapping("/saveAppointmentDTO")
+	public Appointment saveAppointmentWith(@RequestBody AppointmentDTO appointmentDTO) {
+
+		return appointmentService.saveAppointmentWithDTO(appointmentDTO);
+	}
+	
+	@GetMapping("/selectAppointmentDTO/{appointmentId}")
+	public AppointmentDTO getAppointmentByIdWith(@PathVariable(name = "appointmentId", required = true) Long appointmentId) {
+		return appointmentService.selectedAppointmentbyIdWithDTO(appointmentId);
+
+	}
+	
+	@GetMapping("/getAppointmentsDTO")
+	public List<AppointmentDTO> getAppointmentListWith() {
+
+		return appointmentService.getAppointmentListWithDTO();
+	}
+	
+	@PutMapping("/updateAppointmenDTO/{AppointmentId}")
+	public Appointment updateAppointmentWith(@RequestBody AppointmentDTO appointmentDTO,
+			@PathVariable(name = "AppointmentId", required = true) Long AppointmentId) {
+
+		AppointmentDTO savedAppointment = appointmentService.selectedAppointmentbyIdWithDTO(AppointmentId);
+
+		savedAppointment.setAppointmentDate(appointmentDTO.getAppointmentDate());
+		savedAppointment.setAppointmentTime(appointmentDTO.getAppointmentTime());
+
+		return appointmentService.saveAppointmentWithDTO(savedAppointment);
+	}
+	
+	
+	
 }

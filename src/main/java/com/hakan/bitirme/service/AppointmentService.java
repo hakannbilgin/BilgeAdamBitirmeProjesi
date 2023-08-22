@@ -20,7 +20,7 @@ import com.hakan.bitirme.domain.Appointment;
 import com.hakan.bitirme.domain.Doctor;
 import com.hakan.bitirme.domain.Patient;
 import com.hakan.bitirme.dto.appointmentdto.AppointmentDTO;
-
+import com.hakan.bitirme.dto.appointmentdto.AppointmentMapper;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -41,6 +41,16 @@ public class AppointmentService {
 	@Getter
 	@Setter
 	private DoctorRepository doctorRepository;
+
+	@Getter
+	@Setter
+	private AppointmentMapper appointmentMapper;
+
+	@Autowired
+	public AppointmentService(AppointmentMapper appointmentMapper) {
+		super();
+		this.appointmentMapper = appointmentMapper;
+	}
 
 	// randevu kayıt eder
 	@Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRES_NEW)
@@ -101,9 +111,35 @@ public class AppointmentService {
 
 		appointment.setDoctor(doctorRepository.save(doctor));
 		appointment.setPatient(patientRepository.save(patient));
-		
 
 		return appointmentRepository.save(appointment);
 	}
 
+	@Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRES_NEW)
+	@CacheEvict(allEntries = true, cacheNames = { "appointment_list", "appointments" })
+	public Appointment saveAppointmentWithDTO(AppointmentDTO appointmentDTO) {
+		Appointment appointment = appointmentMapper.toEntity(appointmentDTO);
+		return appointmentRepository.save(appointment);
+	}
+	
+	@CachePut(value = "appointments", key = "#appointmentId")
+	public AppointmentDTO selectedAppointmentbyIdWithDTO(Long appointmentId) {
+		
+		Appointment appointment = appointmentRepository.getAppointmentById(appointmentId);
+		if (appointment ==null) {
+			System.out.println("Appointment was not found");
+			return null;
+			
+		}
+		
+		return appointmentMapper.toDTO(appointment);
+	}
+	
+	@Cacheable(value = "appointment_list")
+	public List<AppointmentDTO> getAppointmentListWithDTO() {
+		List<Appointment>appointments = appointmentRepository.findAll();
+		return appointmentMapper.mapToDTOList(appointments);
+	}
+	
+	
 }
