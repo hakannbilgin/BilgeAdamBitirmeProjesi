@@ -37,11 +37,11 @@ public class PatientService {
 	}
 
 //	// hasta kayıt eder
-	@Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRES_NEW)
-	@CacheEvict(allEntries = true, cacheNames = { "patient_List", "patients" })
-	public Patient savePatient(Patient patient) {
-		return patientRepository.save(patient);
-	}
+//	@Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRES_NEW)
+//	@CacheEvict(allEntries = true, cacheNames = { "patient_List", "patients" })
+//	public Patient savePatient(Patient patient) {
+//		return patientRepository.save(patient);
+//	}
 
 	// hsataların hepsini getirir
 //	@Cacheable(value = "patient_List")
@@ -50,10 +50,10 @@ public class PatientService {
 //	}
 
 	// İd ile hastayı bulup getirir.
-	@CachePut(value = "patients", key = "#patientId")
-	public Patient selectedPatient(Long patientId) {
-		return patientRepository.getPatientById(patientId);
-	}
+//	@CachePut(value = "patients", key = "#patientId")
+//	public Patient selectedPatient(Long patientId) {
+//		return patientRepository.getPatientById(patientId);
+//	}
 
 	// KullaniId si ile hastayı siler KALIYOR
 	@Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRES_NEW)
@@ -71,23 +71,23 @@ public class PatientService {
 		return true;
 	}
 
-	// kimlik no'Ya göre hasta sifresini getirir. TODO: DTO İLE YAPILACAK
-	public String getSelectedPatientPassword(String citizenNumber) {
-		return patientRepository.getPatientPassword(citizenNumber);
-	}
+//	// kimlik no'Ya göre hasta sifresini getirir. TODO: DTO İLE YAPILACAK
+//	public String getSelectedPatientPassword(String citizenNumber) {
+//		return patientRepository.getPatientPassword(citizenNumber);
+//	}
 
 	// Kullanici kimlik nosuna göre kayıtlı kullanıcı var mı yok mu ona bakar. Var
 	// ise
 	// true döner yok ise false döner
 //	KALIYOR
-	public boolean patientRegisterCheck(String citizenNumber) {
-		if (patientRepository.getPatientPassword(citizenNumber) != null) {
-			return true;
-		} else {
-			return false;
-		}
-
-	}
+//	public boolean patientRegisterCheck(String citizenNumber) {
+//		if (patientRepository.getPatientPassword(citizenNumber) != null) {
+//			return true;
+//		} else {
+//			return false;
+//		}
+//
+//	}
 
 	// hasta kimlik nosuna göre kayıtlı hasta var mı yok mu ona bakar. Var ise
 	// true döner yok ise false döner
@@ -102,14 +102,14 @@ public class PatientService {
 
 	// hasta kimlik nosuna göre kayıtlı hasta var mı yok mu ona bakar. Var ise
 	// true döner yok ise false döner
-	public boolean patientLoginCheck(String citizenNumber) {
-		if (patientRepository.getPatientPassword(citizenNumber) != null) {
-			return true;
-		} else {
-			return false;
-		}
-
-	}
+//	public boolean patientLoginCheck(String citizenNumber) {
+//		if (patientRepository.getPatientPassword(citizenNumber) != null) {
+//			return true;
+//		} else {
+//			return false;
+//		}
+//
+//	}
 
 	public Patient getPatientByCitizenNumber(String citizenNumber) {
 
@@ -123,7 +123,6 @@ public class PatientService {
 		return patientRepository.save(patient);
 	}
 
-	
 	@CachePut(value = "patients", key = "#patientId")
 	public PatientDTO selectedPatientWithDTO(Long patientId) {
 
@@ -143,4 +142,39 @@ public class PatientService {
 		return patientMapper.mapToDTOList(patients);
 	}
 
+	public String getSelectedPatientPasswordWithDTO(String citizenNumber) {
+
+		Patient patient = patientRepository.getPatientByCitizenNumber(citizenNumber);
+		PatientDTO patientDTO = patientMapper.toDTO(patient);
+
+		return patientDTO.getPassword();
+	}
+
+	public boolean patientRegisterCheckWithDTO(String citizenNumber) {
+
+		Patient patient = patientRepository.getPatientByCitizenNumber(citizenNumber);
+		PatientDTO patientDTO = patientMapper.toDTO(patient);
+
+		if (patientDTO != null) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
+	@CachePut(value = "patient", key = "#citizenNumber")
+	public PatientDTO getPatientByCitizenNumberWithDTO(String citizenNumber) {
+		
+		Patient patient = patientRepository.getPatientByCitizenNumber(citizenNumber);
+
+		if (patient == null) {
+			System.out.println("Patient was not found");
+			return null;
+		}
+		
+		return patientMapper.toDTO(patient);
+	
+	}
+	
 }

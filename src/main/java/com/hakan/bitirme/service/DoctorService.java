@@ -38,36 +38,36 @@ public class DoctorService {
 		this.doctorMapper = doctorMapper;
 	}
 
-	public List<Doctor> getDoctorsListByBranch(String branch) {
-		return doctorRepository.findDoctorsByBranch(branch);
-	}
+//	public List<Doctor> getDoctorsListByBranch(String branch) {
+//		return doctorRepository.findDoctorsByBranch(branch);
+//	}
 
-	@Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRES_NEW)
-	@CacheEvict(allEntries = true, cacheNames = { "doctors_list", "doctors" })
-	public Doctor saveDoctor(Doctor doctor) {
-		return doctorRepository.save(doctor);
+//	@Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRES_NEW)
+//	@CacheEvict(allEntries = true, cacheNames = { "doctors_list", "doctors" })
+//	public Doctor saveDoctor(Doctor doctor) {
+//		return doctorRepository.save(doctor);
+//
+//	}
 
-	}
-
-	// doktorların hepsini getirir
-	@Cacheable(value = "doctor_list")
-	public List<Doctor> getDoctorsList() {
-		return doctorRepository.findAll();
-	}
+//	// doktorların hepsini getirir
+//	@Cacheable(value = "doctor_list")
+//	public List<Doctor> getDoctorsList() {
+//		return doctorRepository.findAll();
+//	}
 
 	// İd ile doktoru bulup getirir.
-	@CachePut(value = "doctors", key = "#doctorId")
-	public Doctor selectedDoctor(Long doctorId) {
-		return doctorRepository.getDoctorById(doctorId);
+//	@CachePut(value = "doctors", key = "#doctorId")
+//	public Doctor selectedDoctor(Long doctorId) {
+//		return doctorRepository.getDoctorById(doctorId);
+//
+//	}
 
-	}
-
-	// branş ile doktoru bulup getirir.
-	@CachePut(value = "doctor", key = "#doctorBranch")
-	public Doctor selectedDoctorByBranch(String doctorBranch) {
-		return doctorRepository.getDoctorByBranch(doctorBranch);
-
-	}
+//	// branş ile doktoru bulup getirir.
+//	@CachePut(value = "doctor", key = "#doctorBranch")
+//	public Doctor selectedDoctorByBranch(String doctorBranch) {
+//		return doctorRepository.getDoctorByBranch(doctorBranch);
+//
+//	}
 
 	// seçili doktoru id si ile siler
 	@Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRES_NEW)
@@ -111,4 +111,20 @@ public class DoctorService {
 			List<Doctor> doctors = doctorRepository.findAll();
 			return doctorMapper.mapToDTOList(doctors);
 		}
+		
+		
+		@CachePut(value = "doctor", key = "#doctorBranch")
+		public DoctorDTO selectedDoctorByBranchWithtDTO(String doctorBranch) {
+			
+			Doctor doctor = doctorRepository.getDoctorByBranch(doctorBranch);
+			if (doctor==null) {
+				System.out.println("Doctor was not found");
+				return null;
+			}
+			
+			return doctorMapper.toDTO(doctor);
+
+		}
+
+		
 }
