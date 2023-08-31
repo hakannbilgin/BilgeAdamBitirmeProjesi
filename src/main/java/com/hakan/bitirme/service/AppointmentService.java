@@ -2,8 +2,6 @@ package com.hakan.bitirme.service;
 
 import java.util.List;
 
-import javax.persistence.EntityNotFoundException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -17,8 +15,6 @@ import com.hakan.bitirme.dal.AppointmentRepository;
 import com.hakan.bitirme.dal.DoctorRepository;
 import com.hakan.bitirme.dal.PatientRepository;
 import com.hakan.bitirme.domain.Appointment;
-import com.hakan.bitirme.domain.Doctor;
-import com.hakan.bitirme.domain.Patient;
 import com.hakan.bitirme.dto.appointmentdto.AppointmentDTO;
 import com.hakan.bitirme.dto.appointmentdto.AppointmentMapper;
 import lombok.Getter;
@@ -52,25 +48,6 @@ public class AppointmentService {
 		this.appointmentMapper = appointmentMapper;
 	}
 
-	// randevu kayıt eder
-	@Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRES_NEW)
-	@CacheEvict(allEntries = true, cacheNames = { "appointment_list", "appointments" })
-	public Appointment saveAppointment(Appointment appointment) {
-		return appointmentRepository.save(appointment);
-	}
-
-	// randevu hepsini getirir
-	@Cacheable(value = "appointment_list")
-	public List<Appointment> getAppointmentList() {
-		return appointmentRepository.findAll();
-	}
-
-	// İd ile randevuyu bulup getirir.
-	@CachePut(value = "appointments", key = "#appointmentId")
-	public Appointment selectedAppointmentbyId(Long appointmentId) {
-		return appointmentRepository.getAppointmentById(appointmentId);
-	}
-
 	// randevu id si ile randevuyu siler
 	@Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRES_NEW)
 	@CacheEvict(key = "#appointmentId", allEntries = true, cacheNames = { "appointment_list", "appointments" })
@@ -96,23 +73,12 @@ public class AppointmentService {
 	// ise
 	// true döner yok ise false döner
 	public boolean appointmentSaveCheckByPatientName(String patientName) {
-		if (appointmentRepository.getAppointmentByPatientName(patientName) != null) {
+		if (appointmentRepository.getAppointmentListByPatientName(patientName) != null) {
 			return true;
 		} else {
 			return false;
 		}
 
-	}
-
-	// randevu kayıt eder
-	@Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRES_NEW)
-	@CacheEvict(allEntries = true, cacheNames = { "appointment_list", "appointments" })
-	public Appointment saveAppointment3(Appointment appointment, Doctor doctor, Patient patient) {
-
-		appointment.setDoctor(doctorRepository.save(doctor));
-		appointment.setPatient(patientRepository.save(patient));
-
-		return appointmentRepository.save(appointment);
 	}
 
 	@Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRES_NEW)
@@ -122,24 +88,33 @@ public class AppointmentService {
 		return appointmentRepository.save(appointment);
 	}
 	
+	@Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRES_NEW)
+	@CacheEvict(allEntries = true, cacheNames = { "appointment_list", "appointments" })
+	public Appointment saveAppointmentWithDTO1(AppointmentDTO appointmentDTO) {
+		
+		Appointment appointment1 = appointmentMapper.toEntity(appointmentDTO);
+		
+		
+		return appointmentRepository.save(appointment1);
+	}
+
 	@CachePut(value = "appointments", key = "#appointmentId")
 	public AppointmentDTO selectedAppointmentbyIdWithDTO(Long appointmentId) {
-		
+
 		Appointment appointment = appointmentRepository.getAppointmentById(appointmentId);
-		if (appointment ==null) {
+		if (appointment == null) {
 			System.out.println("Appointment was not found");
 			return null;
-			
+
 		}
-		
+
 		return appointmentMapper.toDTO(appointment);
 	}
-	
+
 	@Cacheable(value = "appointment_list")
 	public List<AppointmentDTO> getAppointmentListWithDTO() {
-		List<Appointment>appointments = appointmentRepository.findAll();
+		List<Appointment> appointments = appointmentRepository.findAll();
 		return appointmentMapper.mapToDTOList(appointments);
 	}
-	
-	
+
 }

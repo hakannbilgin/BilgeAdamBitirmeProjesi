@@ -22,40 +22,6 @@ public class PatientRestController {
 	@Autowired
 	private PatientService patientService;
 
-//	// yeni hasta kaydeder
-//	@PostMapping("/postSavePatient")
-//	public Patient savePatient(@RequestBody Patient patient) {
-//		return patientService.savePatient(patient);
-//
-//	}
-
-	// id ye göre hasta getirir
-//	@GetMapping("/getPatientById/{patientId}")
-//	private Patient patientById(@PathVariable(name = "patientId", required = true) Long patientId) {
-//		return patientService.selectedPatient(patientId);
-//	}
-
-	// HASTA Bilgilerini günceller
-//	@PutMapping("/putUpdatePatientById/{patientId}")
-//	public Patient updatePatient(@RequestBody Patient patient,
-//			@PathVariable(name = "patientId", required = true) Long patientId) {
-//		Patient savedPatient = patientService.selectedPatient(patientId);
-//
-//		savedPatient.setFirstName(patient.getFirstName());
-//		savedPatient.setLastName(patient.getLastName());
-//		savedPatient.setEmail(patient.getEmail());
-//		savedPatient.setPassword(patient.getPassword());
-//
-//		return patientService.savePatient(savedPatient);
-//	}
-
-	// Bütün hastaları getirir Getirir
-//	@GetMapping("/getPatients")
-//	private List<Patient> getPatientsList() {
-//
-//		return patientService.getPatientList();
-//	}
-
 	// İd ye göre hastaları siler
 	@DeleteMapping("/deletePatientById/{patientId}")
 	public Boolean deletePatient(@PathVariable(name = "patientId", required = true) Long patientId) {
@@ -113,20 +79,21 @@ public class PatientRestController {
 	@GetMapping("/getPatientPasswordByCitizenNumberDTO/{citizenNumber}")
 	private String getPatientPasswordByCitizenNumberDTO(
 			@PathVariable(name = "citizenNumber", required = true) String CitizenNumber) {
-		
+
 		return patientService.getSelectedPatientPasswordWithDTO(CitizenNumber);
 	}
-	
+
 	@GetMapping("/patientRegisterCheck/{citizenNumber}")
 	private Boolean patientRegisterCheckDTO(
 			@PathVariable(name = "citizenNumber", required = true) String CitizenNumber) {
 		return patientService.patientRegisterCheckWithDTO(CitizenNumber);
 	}
-	
+
 	@GetMapping("/getPatientByCitizenNumberDTO/{citizenNumber}")
-	private PatientDTO patientByCitizenNumberDTO(@PathVariable(name = "citizenNumber", required = true) String citizenNumber) {
+	private PatientDTO patientByCitizenNumberDTO(
+			@PathVariable(name = "citizenNumber", required = true) String citizenNumber) {
 
 		return patientService.getPatientByCitizenNumberWithDTO(citizenNumber);
 	}
-	
+
 }

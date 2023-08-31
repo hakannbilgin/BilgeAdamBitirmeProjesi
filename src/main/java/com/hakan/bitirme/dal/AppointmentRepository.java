@@ -28,15 +28,15 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
 	public List<Appointment> getListAppointmentByBranch(@Param("branch") String doctorBranch);
 
 	@Query("select a FROM appointment a WHERE a.doctorName LIKE ':%doctorName%' ")
-	public List<Appointment> getAppointmentByDoctorName(@Param("doctorName") String doctorName);
+	public List<Appointment> getAppointmentListByDoctorName(@Param("doctorName") String doctorName);
 
 	@Query("select a FROM appointment a WHERE a.patientName LIKE ':%patientName% '")
-	public List<Appointment> getAppointmentByPatientName(@Param("patientName") String patientName);
+	public List<Appointment> getAppointmentListByPatientName(@Param("patientName") String patientName);
 
 	@Query("select a FROM appointment a WHERE a.appointmentDate = :date")
-	public List<Appointment> getAppointmentByDate(@Param("date") LocalDate date);
+	public List<Appointment> getAppointmentListByDate(@Param("date") LocalDate date);
 
 	@Query("SELECT a FROM appointment a WHERE a.appointmentId IN :appointmentIdList")
-	public List<Appointment> findAppointmentById(@Param("appointmentIdList") Collection<Long> appointmentIdList);
+	public List<Appointment> findAppointmentListById(@Param("appointmentIdList") Collection<Long> appointmentIdList);
 
 }
