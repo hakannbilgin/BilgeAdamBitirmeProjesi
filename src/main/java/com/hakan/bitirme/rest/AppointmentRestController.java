@@ -36,12 +36,7 @@ public class AppointmentRestController {
 		return appointmentService.saveAppointmentWithDTO(appointmentDTO);
 	}
 	
-	@PostMapping("/saveAppointmentDTO1")
-	public Appointment saveAppointmentWith1(@RequestBody AppointmentDTO appointmentDTO) {
-
-		return appointmentService.saveAppointmentWithDTO1(appointmentDTO);
-	}
-
+	
 	@GetMapping("/selectAppointmentDTO/{appointmentId}")
 	public AppointmentDTO getAppointmentByIdWith(
 			@PathVariable(name = "appointmentId", required = true) Long appointmentId) {

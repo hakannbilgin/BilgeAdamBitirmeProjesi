@@ -72,12 +72,26 @@ public class AppointmentService {
 	// Hasta adına göre kayıtlı randevu mı yok mu ona bakar. Var
 	// ise
 	// true döner yok ise false döner
-	public boolean appointmentSaveCheckByPatientName(String patientName) {
-		if (appointmentRepository.getAppointmentListByPatientName(patientName) != null) {
-			return true;
-		} else {
-			return false;
+//	public boolean appointmentSaveCheckByPatientName(String patientName) {
+//		if (appointmentRepository.getAppointmentListByPatientName(patientName) != null) {
+//			return true;
+//		} else {
+//			return false;
+//		}
+//
+//	}
+
+	// ÇALIŞIP ÇALIŞMADIĞINA BAK.
+	public String getSelectedAppointmentDoctorFirstNameWithDTO(Long appointmentId) {
+
+		Appointment appointment = appointmentRepository.getAppointmentById(appointmentId);
+		if (appointment == null) {
+			System.out.println("Appointment was not found");
+			return null;
+
 		}
+
+		return appointmentMapper.toDTO(appointment).getDoctorFirstName();
 
 	}
 
@@ -86,16 +100,6 @@ public class AppointmentService {
 	public Appointment saveAppointmentWithDTO(AppointmentDTO appointmentDTO) {
 		Appointment appointment = appointmentMapper.toEntity(appointmentDTO);
 		return appointmentRepository.save(appointment);
-	}
-	
-	@Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRES_NEW)
-	@CacheEvict(allEntries = true, cacheNames = { "appointment_list", "appointments" })
-	public Appointment saveAppointmentWithDTO1(AppointmentDTO appointmentDTO) {
-		
-		Appointment appointment1 = appointmentMapper.toEntity(appointmentDTO);
-		
-		
-		return appointmentRepository.save(appointment1);
 	}
 
 	@CachePut(value = "appointments", key = "#appointmentId")

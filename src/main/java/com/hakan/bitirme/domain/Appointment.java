@@ -40,11 +40,23 @@ public class Appointment {
 	@JoinColumn(name = "thisIsDoctorId", foreignKey = @ForeignKey(name = "doctorIdFk"))
 	private Doctor doctor;
 
-	@Column(length = 200, nullable = false, name = "patientName")
-	private String patientName;
+//	@Column(length = 200, nullable = false, name = "patientName")
+//	private String patientName;
+	
+	@Column(length = 200, nullable = false, name = "patientFirstName")
+	private String patientFirstName;
+	
+	@Column(length = 200, nullable = false, name = "patientLastName")
+	private String patientLastName;
 
-	@Column(length = 200, nullable = false, name = "doctorName")
-	private String doctorName;
+//	@Column(length = 200, nullable = false, name = "doctorName")
+//	private String doctorName;
+	
+	@Column(length = 200, nullable = false, name = "doctorFirstName")
+	private String doctorFirstName;
+	
+	@Column(length = 200, nullable = false, name = "doctorLastName")
+	private String doctorLastName;
 
 	@Column(length = 200, nullable = false, name = "doctorBranch")
 	private String doctorBranch;

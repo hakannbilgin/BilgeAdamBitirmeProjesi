@@ -12,9 +12,12 @@ import com.hakan.bitirme.domain.Appointment;
 
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
 
-	@Query(nativeQuery = true, value = "INSERT INTO appointment(patientName,doctorName,doctorBranch,appointmentDate,appointmenTime) VALUES (:patientNameParameter,:doctorNameParameter,:doctorBranchParameter,:appointmentDateParameter,:appointmentTimeParameter")
-	public void saveAppointment(@Param("patientNameParameter") String patientName,
-			@Param("doctorNameParameter") String doctorName, @Param("doctorBranchParameter") String doctorBranch,
+	@Query(nativeQuery = true, value = "INSERT INTO appointment(patientFirstName,patientLastName,doctorFirstName,doctorLastName,doctorBranch,appointmentDate,appointmenTime) VALUES (:patientFirstNameParameter,:patientLastNameParameter,:doctorFirstNameParameter,:doctorLastNameParameter,:doctorBranchParameter,:appointmentDateParameter,:appointmentTimeParameter")
+	public void saveAppointment(@Param("patientFirstNameParameter") String patientFirstName,
+			@Param("patientLastNameParameter") String patientLastName,
+			@Param("doctorFirstNameParameter") String doctorFirstName,
+			@Param("doctorLastNameParameter") String doctorLastName,
+			@Param("doctorBranchParameter") String doctorBranch,
 			@Param("appointmentDateParameter") LocalDate appointmentDate,
 			@Param("appointmentTimeParameter") String appointmentTime);
 
@@ -27,11 +30,23 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
 	@Query("SELECT a FROM appointment a WHERE a.doctorBranch = :branch")
 	public List<Appointment> getListAppointmentByBranch(@Param("branch") String doctorBranch);
 
-	@Query("select a FROM appointment a WHERE a.doctorName LIKE ':%doctorName%' ")
-	public List<Appointment> getAppointmentListByDoctorName(@Param("doctorName") String doctorName);
+//	@Query("select a FROM appointment a WHERE a.doctorName LIKE ':%doctorName%' ")
+//	public List<Appointment> getAppointmentListByDoctorName(@Param("doctorName") String doctorName);
 
-	@Query("select a FROM appointment a WHERE a.patientName LIKE ':%patientName% '")
-	public List<Appointment> getAppointmentListByPatientName(@Param("patientName") String patientName);
+	@Query("select a FROM appointment a WHERE a.doctorFirstName LIKE ':%doctorFirstName%' ")
+	public List<Appointment> getAppointmentListByDoctorFirstName(@Param("doctorFirstName") String doctorFirstName);
+
+	@Query("select a FROM appointment a WHERE a.doctorLastName LIKE ':%doctorLastName%' ")
+	public List<Appointment> getAppointmentListByDoctorLastName(@Param("doctorLastName") String doctorLastName);
+
+//	@Query("select a FROM appointment a WHERE a.patientName LIKE ':%patientName% '")
+//	public List<Appointment> getAppointmentListByPatientName(@Param("patientName") String patientName);
+
+	@Query("select a FROM appointment a WHERE a.patientFirstName LIKE ':%patientFirstName% '")
+	public List<Appointment> getAppointmentListByPatientFirstName(@Param("patientFirstName") String patientFirstName);
+
+	@Query("select a FROM appointment a WHERE a.patientLastName LIKE ':%patientLastName% '")
+	public List<Appointment> getAppointmentListByPatientLastName(@Param("patientLastName") String patientLastName);
 
 	@Query("select a FROM appointment a WHERE a.appointmentDate = :date")
 	public List<Appointment> getAppointmentListByDate(@Param("date") LocalDate date);

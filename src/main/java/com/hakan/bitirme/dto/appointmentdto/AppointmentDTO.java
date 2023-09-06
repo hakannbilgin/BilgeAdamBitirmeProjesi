@@ -7,21 +7,24 @@ import com.hakan.bitirme.domain.Patient;
 
 public class AppointmentDTO {
 
-	
 	private long appointmentId;
-	
+
 	private Patient patient;
-	
+
 	private Doctor doctor;
-	
-	private String patientName;
-	
-	private String doctorName;
-	
+
+	private String patientFirstName;
+
+	private String patientLastName;
+
+	private String doctorFirstName;
+
+	private String doctorLastName;
+
 	private String doctorBranch;
-	
+
 	private LocalDate appointmentDate;
-	
+
 	private int appointmentTime;
 
 	public long getAppointmentId() {
@@ -48,20 +51,36 @@ public class AppointmentDTO {
 		this.doctor = doctor;
 	}
 
-	public String getPatientName() {
-		return patientName;
+	public String getPatientFirstName() {
+		return patientFirstName;
 	}
 
-	public void setPatientName(String patientName) {
-		this.patientName = patientName;
+	public void setPatientFirstName(String patientFirstName) {
+		this.patientFirstName = patientFirstName;
 	}
 
-	public String getDoctorName() {
-		return doctorName;
+	public String getPatientLastName() {
+		return patientLastName;
 	}
 
-	public void setDoctorName(String doctorName) {
-		this.doctorName = doctorName;
+	public void setPatientLastName(String patientLastName) {
+		this.patientLastName = patientLastName;
+	}
+
+	public String getDoctorFirstName() {
+		return doctorFirstName;
+	}
+
+	public void setDoctorFirstName(String doctorFirstName) {
+		this.doctorFirstName = doctorFirstName;
+	}
+
+	public String getDoctorLastName() {
+		return doctorLastName;
+	}
+
+	public void setDoctorLastName(String doctorLastName) {
+		this.doctorLastName = doctorLastName;
 	}
 
 	public String getDoctorBranch() {
@@ -87,7 +106,5 @@ public class AppointmentDTO {
 	public void setAppointmentTime(int appointmentTime) {
 		this.appointmentTime = appointmentTime;
 	}
-    
-	
-	
+
 }

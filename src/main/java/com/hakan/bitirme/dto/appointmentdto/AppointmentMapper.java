@@ -22,8 +22,10 @@ public class AppointmentMapper {
 		appointmentDTO.setAppointmentId(appointment.getAppointmentId());
 		appointmentDTO.setDoctor(appointment.getDoctor());
 		appointmentDTO.setPatient(appointment.getPatient());
-		appointmentDTO.setPatientName(appointment.getPatientName());
-		appointmentDTO.setDoctorName(appointment.getDoctorName());
+		appointmentDTO.setPatientFirstName(appointment.getPatientFirstName());
+		appointmentDTO.setPatientLastName(appointment.getPatientLastName());
+		appointmentDTO.setDoctorFirstName(appointment.getDoctorFirstName());
+		appointmentDTO.setDoctorLastName(appointment.getDoctorLastName());
 		appointmentDTO.setDoctorBranch(appointment.getDoctorBranch());
 		appointmentDTO.setAppointmentDate(appointment.getAppointmentDate());
 		appointmentDTO.setAppointmentTime(appointment.getAppointmentTime());
@@ -40,8 +42,10 @@ public class AppointmentMapper {
         appointment.setAppointmentId(dto.getAppointmentId());
         appointment.setDoctor(dto.getDoctor());
         appointment.setPatient(dto.getPatient());
-        appointment.setPatientName(dto.getPatientName());
-        appointment.setDoctorName(dto.getDoctorName());
+        appointment.setPatientFirstName(dto.getPatientFirstName());
+        appointment.setPatientLastName(dto.getPatientLastName()); 
+        appointment.setDoctorFirstName(dto.getDoctorFirstName());
+        appointment.setDoctorLastName(dto.getDoctorLastName());
         appointment.setDoctorBranch(dto.getDoctorBranch());
         appointment.setAppointmentDate(dto.getAppointmentDate());
         appointment.setAppointmentTime(dto.getAppointmentTime());
@@ -56,13 +60,20 @@ public class AppointmentMapper {
 		appointment.setAppointmentId(dto.getAppointmentId());
 		appointment.setDoctor(dto.getDoctor());
         appointment.setPatient(dto.getPatient());
-        appointment.setPatientName(dto.getPatientName());
-        appointment.setDoctorName(dto.getDoctorName());
+        appointment.setPatientFirstName(dto.getPatientFirstName());
+        appointment.setPatientLastName(dto.getPatientLastName());
+        appointment.setDoctorFirstName(dto.getDoctorFirstName());
+        appointment.setDoctorLastName(dto.getDoctorLastName());
         appointment.setDoctorBranch(dto.getDoctorBranch());
         appointment.setAppointmentDate(dto.getAppointmentDate());
         appointment.setAppointmentTime(dto.getAppointmentTime());
 		
 	}
+	
+	
+	
+	
+	
 	
 	public List<AppointmentDTO> mapToDTOList(List<Appointment> appointments) {
 
@@ -71,8 +82,10 @@ public class AppointmentMapper {
 			dto.setAppointmentId(appointment.getAppointmentId());
 			dto.setDoctor(appointment.getDoctor());
 			dto.setPatient(appointment.getPatient());
-			dto.setPatientName(appointment.getPatientName());
-			dto.setDoctorName(appointment.getDoctorName());
+			dto.setPatientFirstName(appointment.getPatientFirstName());
+			dto.setPatientLastName(appointment.getPatientLastName());
+			dto.setDoctorFirstName(appointment.getDoctorFirstName());
+			dto.setDoctorLastName(appointment.getDoctorLastName());
 			dto.setDoctorBranch(appointment.getDoctorBranch());
 			dto.setAppointmentDate(appointment.getAppointmentDate());
 			dto.setAppointmentTime(appointment.getAppointmentTime());
@@ -88,8 +101,10 @@ public class AppointmentMapper {
 	        appointment.setAppointmentId(dto.getAppointmentId());
 	        appointment.setDoctor(dto.getDoctor());
 	        appointment.setPatient(dto.getPatient());
-	        appointment.setPatientName(dto.getPatientName());
-	        appointment.setDoctorName(dto.getDoctorName());
+	        appointment.setPatientFirstName(dto.getPatientFirstName());
+	        appointment.setPatientLastName(dto.getPatientLastName());
+	        appointment.setDoctorFirstName(dto.getDoctorFirstName());
+	        appointment.setDoctorLastName(dto.getDoctorLastName());
 	        appointment.setDoctorBranch(dto.getDoctorBranch());
 	        appointment.setAppointmentDate(dto.getAppointmentDate());
 	        appointment.setAppointmentTime(dto.getAppointmentTime());
