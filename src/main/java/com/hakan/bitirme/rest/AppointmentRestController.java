@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hakan.bitirme.domain.Appointment;
 import com.hakan.bitirme.dto.appointmentdto.AppointmentDTO;
 import com.hakan.bitirme.service.AppointmentService;
+import com.hakan.bitirme.service.DoctorService;
+import com.hakan.bitirme.service.PatientService;
 
 @RestController
 @RequestMapping("/rest/appointment")
@@ -35,8 +37,13 @@ public class AppointmentRestController {
 
 		return appointmentService.saveAppointmentWithDTO(appointmentDTO);
 	}
-	
-	
+
+	@PostMapping("/saveAppointmentDTO1")
+	public Appointment saveAppointmentWith1(@RequestBody AppointmentDTO appointmentDTO) {
+		System.out.println("AppointmentDTORestController....." + appointmentDTO);
+		return appointmentService.saveAppointmentWithDTO1(appointmentDTO);
+	}
+
 	@GetMapping("/selectAppointmentDTO/{appointmentId}")
 	public AppointmentDTO getAppointmentByIdWith(
 			@PathVariable(name = "appointmentId", required = true) Long appointmentId) {

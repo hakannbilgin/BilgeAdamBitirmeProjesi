@@ -15,6 +15,8 @@ import com.hakan.bitirme.dal.AppointmentRepository;
 import com.hakan.bitirme.dal.DoctorRepository;
 import com.hakan.bitirme.dal.PatientRepository;
 import com.hakan.bitirme.domain.Appointment;
+import com.hakan.bitirme.domain.Doctor;
+import com.hakan.bitirme.domain.Patient;
 import com.hakan.bitirme.dto.appointmentdto.AppointmentDTO;
 import com.hakan.bitirme.dto.appointmentdto.AppointmentMapper;
 import lombok.Getter;
@@ -99,6 +101,26 @@ public class AppointmentService {
 	@CacheEvict(allEntries = true, cacheNames = { "appointment_list", "appointments" })
 	public Appointment saveAppointmentWithDTO(AppointmentDTO appointmentDTO) {
 		Appointment appointment = appointmentMapper.toEntity(appointmentDTO);
+		return appointmentRepository.save(appointment);
+	}
+
+	@Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRES_NEW)
+	@CacheEvict(allEntries = true, cacheNames = { "appointment_list", "appointments" })
+	public Appointment saveAppointmentWithDTO1(AppointmentDTO appointmentDTO) {
+
+		Appointment appointment = appointmentMapper.toEntity(appointmentDTO);
+		Doctor doctor = doctorRepository.getDoctorById(appointmentDTO.getDoctorId());
+		Patient patient = patientRepository.getPatientById(appointmentDTO.getPatientId());
+
+		appointment.setDoctor(doctor);
+		appointment.setPatient(patient);
+
+		appointment.setPatientFirstName(patient.getFirstName());
+		appointment.setPatientLastName(patient.getLastName());
+		appointment.setDoctorFirstName(doctor.getFirstName());
+		appointment.setDoctorLastName(doctor.getLastName());
+		appointment.setDoctorBranch(doctor.getBranch());
+		System.out.println("Appointment...." + appointment);
 		return appointmentRepository.save(appointment);
 	}
 

@@ -8,7 +8,11 @@ import com.hakan.bitirme.domain.Patient;
 public class AppointmentDTO {
 
 	private long appointmentId;
-
+	
+	private long doctorId;
+	
+	private long patientId;
+	
 	private Patient patient;
 
 	private Doctor doctor;
@@ -107,4 +111,22 @@ public class AppointmentDTO {
 		this.appointmentTime = appointmentTime;
 	}
 
+	public long getDoctorId() {
+		return doctorId;
+	}
+
+	public void setDoctorId(long doctorId) {
+		this.doctorId = doctorId;
+	}
+
+	public long getPatientId() {
+		return patientId;
+	}
+
+	public void setPatientId(long patientId) {
+		this.patientId = patientId;
+	}
+
+	
+	
 }
