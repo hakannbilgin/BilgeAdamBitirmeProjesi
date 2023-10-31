@@ -30,7 +30,7 @@ public class Doctor {
 	
 	@Column(length = 200, nullable = false, name = "firstName")
 	private String firstName;
-//
+	
 	@Column(length = 200, nullable = false, name = "lastName")
 	private String lastName;
 	
