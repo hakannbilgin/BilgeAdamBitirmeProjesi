@@ -35,12 +35,25 @@ public class PatientService {
 	}
 
 	// KullaniId si ile hastayı siler KALIYOR
-	@Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRES_NEW)
-	@CacheEvict(key = "#patientId", allEntries = true, cacheNames = { "patient_List", "patients" })
-	public Boolean deletePatient(Long patientId) {
-		patientRepository.deleteById(patientId);
-		return true;
-	}
+//	@Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRES_NEW)
+//	@CacheEvict(key = "#patientId", allEntries = true, cacheNames = { "patient_List", "patients" })
+//	public Boolean deletePatient(Long patientId) {
+//		patientRepository.deleteById(patientId);
+//		return true;
+//	}
+	
+	// KullaniId si ile hastayı siler KALIYOR
+		@Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRES_NEW)
+		@CacheEvict(key = "#patientId", allEntries = true, cacheNames = { "patient_List", "patients" })
+		public Boolean deletePatient(Long patientId) {
+			if (patientId !=null) {
+				patientRepository.deleteById(patientId);
+				return true;
+			}else {
+				return false;
+			}
+		}
+	
 
 	// Bütün hastaları siler KALIYOR
 	@Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRES_NEW)
@@ -61,9 +74,18 @@ public class PatientService {
 
 	}
 
-	public Patient getPatientByCitizenNumber(String citizenNumber) {
-
-		return patientRepository.getPatientByCitizenNumber(citizenNumber);
+//	public Patient getPatientByCitizenNumber(String citizenNumber) {
+//
+//		return patientRepository.getPatientByCitizenNumber(citizenNumber);
+//	}
+	
+	
+	
+	public PatientDTO getPatientByCitizenNumberwithDTO(String citizenNumber) {
+		
+		PatientDTO patientDTO = patientMapper.toDTO(patientRepository.getPatientByCitizenNumber(citizenNumber));
+		
+		return patientDTO;
 	}
 
 	@Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRES_NEW)

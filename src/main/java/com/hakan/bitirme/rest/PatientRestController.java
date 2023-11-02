@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hakan.bitirme.domain.Patient;
-import com.hakan.bitirme.dto.appointmentdto.AppointmentDTO;
 import com.hakan.bitirme.dto.patientdto.PatientDTO;
 import com.hakan.bitirme.dto.patientdto.PatientMapper;
 import com.hakan.bitirme.service.PatientService;
@@ -25,13 +24,13 @@ import com.hakan.bitirme.service.PatientService;
 public class PatientRestController {
 	@Autowired
 	private PatientService patientService;
-	
+
 	private PatientMapper patientMapper;
-	
+
 	@Autowired
-    public PatientRestController(PatientMapper patientMapper) {
-        this.patientMapper = patientMapper;
-    }
+	public PatientRestController(PatientMapper patientMapper) {
+		this.patientMapper = patientMapper;
+	}
 
 //	// İd ye göre hastaları siler
 //	@DeleteMapping("/deletePatientById/{patientId}")
@@ -48,11 +47,11 @@ public class PatientRestController {
 //	}
 
 	// id ye göre hasta getirir
-	@GetMapping("/getPatientByCitizenNumber/{citizenNumber}")
-	private Patient getPatientByCitizenNumber(
-			@PathVariable(name = "citizenNumber", required = true) String CitizenNumber) {
-		return patientService.getPatientByCitizenNumber(CitizenNumber);
-	}
+//	@GetMapping("/getPatientByCitizenNumber/{citizenNumber}")
+//	private Patient getPatientByCitizenNumber(
+//			@PathVariable(name = "citizenNumber", required = true) String CitizenNumber) {
+//		return patientService.getPatientByCitizenNumber(CitizenNumber);
+//	}
 
 //	// yeni hasta kaydeder
 //	@PostMapping("/postSavePatientDTO")
@@ -100,93 +99,194 @@ public class PatientRestController {
 		return patientService.patientRegisterCheckWithDTO(CitizenNumber);
 	}
 
-	@GetMapping("/getPatientByCitizenNumberDTO/{citizenNumber}")
-	private PatientDTO getpatientByCitizenNumberDTO(
-			@PathVariable(name = "citizenNumber", required = true) String citizenNumber) {
+//	@GetMapping("/getPatientByCitizenNumberDTO/{citizenNumber}")
+//	private PatientDTO getpatientByCitizenNumberDTO(
+//			@PathVariable(name = "citizenNumber", required = true) String citizenNumber) {
+//
+//		return patientService.getPatientByCitizenNumberWithDTO(citizenNumber);
+//	}
+//	
+//	
+//	
+//	
+//	
+//	
+//	
+//	
 
-		return patientService.getPatientByCitizenNumberWithDTO(citizenNumber);
-	}
-	
-	
 	@PostMapping("/savePatientResponse")
 	public ResponseEntity<String> savePatientResponse(@RequestBody PatientDTO patientDTO) {
-
-		 try {
-	            patientService.savePatientWithDTO(patientDTO);
-	            return ResponseEntity.ok("Patient saved successfully");
-	        } catch (Exception e) {
-	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Couldn't saved");
-	        }
-	    }
-	
-	@GetMapping("/getPatientByIdResponse/{patientId}")
-	private ResponseEntity<PatientDTO> getpatientByIdResponse(@PathVariable(name = "patientId", required = true) Long patientId) {
-		
-		PatientDTO patientDTO = patientService.selectedPatientWithDTO(patientId);
-		if (patientDTO != null) {
-			return ResponseEntity.ok(patientDTO);
-		}else {
-			return ResponseEntity.notFound().build();
+//BURAYI DÜZENLE
+		try {
+			patientService.savePatientWithDTO(patientDTO);
+			return ResponseEntity.ok("Patient saved successfully");
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Couldn't saved");
 		}
 	}
-	
-	 @DeleteMapping("/deletePatientByIdResponse/{patientId}")
-	    public ResponseEntity<String> deletePatientByIdResponse(@PathVariable(name = "patientId") Long patientId) {
-	        boolean isDeleted = patientService.deletePatient(patientId);
-	        if (isDeleted) {
-	            return ResponseEntity.ok("Patient with ID " + patientId + " has been deleted.");
-	        } else {
-	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Patient with ID " + patientId + " not found.");
-	        }
-	    }
 
-	    @DeleteMapping("/deleteAllPatientsResponse")
-	    public ResponseEntity<String> deleteAllPatientsResponse() {
-	        boolean isDeleted = patientService.deleteAllPatients();
-	        if (isDeleted) {
-	            return ResponseEntity.ok("All patients have been deleted.");
-	        } else {
-	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No patients found to delete.");
-	        }
-	    }
+	@GetMapping("/getPatientByIdResponse/{patientId}")
+	private ResponseEntity<?> getpatientByIdResponse(
+			@PathVariable(name = "patientId", required = true) Long patientId) {
 
-	    @GetMapping("/getPatientsListResponse")
-	    public ResponseEntity<List<PatientDTO>> getPatientsListResponse(){
-	    	
-	    	List<PatientDTO> patientsList = patientService.getPatientListWithDTO();
-	    	if (patientsList != null && !patientsList.isEmpty()) {
-	    		 return ResponseEntity.ok(patientsList);
-	        } else {
-	            return ResponseEntity.notFound().build();
-	        }
-	    }
-	    
-	    
-	    @PutMapping("/putUpdatePatientByIdResponse/{patientId}")
-		public ResponseEntity<PatientDTO> updatePatientResponse(@RequestBody PatientDTO patientDTO,
-				@PathVariable(name = "patientId", required = true) Long patientId) {
-	    	
-	    	PatientDTO savedPatient = patientService.selectedPatientWithDTO(patientId);
-	    	
-	    	if ((savedPatient == null)) {
-	    		return ResponseEntity.notFound().build();
+		try {
+			if (patientService.selectedPatientWithDTO(patientId) != null) {
+				PatientDTO patientDTO = patientService.selectedPatientWithDTO(patientId);
+				return ResponseEntity.ok(patientDTO);
 			}
-	    	
-	    	savedPatient.setFirstName(patientDTO.getFirstName());
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Patient not found");
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("An error occurred while retrieving the patient.");
+		}
+	}
+
+	@GetMapping("/getPatientByCitizenNumber/{citizenNumber}")
+	private ResponseEntity<?> getPatientByCitizenNumberResponse(
+			@PathVariable(name = "citizenNumber", required = true) String CitizenNumber) {
+
+		try {
+			if (patientService.getPatientByCitizenNumberwithDTO(CitizenNumber) != null) {
+				PatientDTO patientDTO = patientService.getPatientByCitizenNumberwithDTO(CitizenNumber);
+				return ResponseEntity.ok(patientDTO);
+			}
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Patient not found");
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("An error occurred while retrieving the patient.");
+		}
+
+	}
+
+	@DeleteMapping("/deletePatientByIdResponse/{patientId}")
+	public ResponseEntity<String> deletePatientByIdResponse(@PathVariable(name = "patientId") Long patientId) {
+//		boolean isDeleted = patientService.deletePatient(patientId);
+//		if (isDeleted) {
+//			return ResponseEntity.ok("Patient with ID " + patientId + " has been deleted.");
+//		} else {
+//			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Patient with ID " + patientId + " not found.");
+//		}
+//		Boolean isDeleted2 = patientService.deletePatient(patientId);
+//        System.out.println(isDeleted2);
+
+		try {
+
+			if (patientService.selectedPatientWithDTO(patientId) != null) {
+				patientService.deletePatient(patientId);
+				return ResponseEntity.ok("Patient with ID " + patientId + " has been deleted.");
+			} else {
+
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Patient with ID " + patientId + " not found.");
+			}
+		} catch (Exception e) {
+
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("An error occurred while deleting the patient.");
+
+		}
+
+	}
+
+	@DeleteMapping("/deleteAllPatientsResponse")
+	public ResponseEntity<String> deleteAllPatientsResponse() {
+//		boolean isDeleted = patientService.deleteAllPatients();
+//		if (isDeleted) {
+//			return ResponseEntity.ok("All patients have been deleted.");
+//		} else {
+//			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No patients found to delete.");
+//		}
+//	}
+
+		try {
+			boolean isListEmpty = patientService.getPatientListWithDTO().isEmpty();
+			if (!isListEmpty) {
+				patientService.deleteAllPatients();
+				return ResponseEntity.ok("All patients have been deleted.");
+			} else {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No patients found to delete.");
+			}
+
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("An error occurred while deleting the patient.");
+		}
+
+	}
+
+	@GetMapping("/getPatientsListResponse")
+	public ResponseEntity<?> getPatientsListResponse() {
+
+//		List<PatientDTO> patientsList = patientService.getPatientListWithDTO();
+//		if (patientsList != null && !patientsList.isEmpty()) {
+//			return ResponseEntity.ok(patientsList);
+//		} else {
+//			return ResponseEntity.notFound().build();
+//		}
+//		
+
+		try {
+			List<PatientDTO> patientsList = patientService.getPatientListWithDTO();
+			if (patientsList != null && !patientsList.isEmpty()) {
+				return ResponseEntity.ok(patientsList);
+			} else {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("There are no patient to List");
+			}
+
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("An error occurred while Listing the patients.");
+		}
+
+	}
+
+	@PutMapping("/putUpdatePatientByIdResponse/{patientId}")
+	public ResponseEntity<?> updatePatientResponse(@RequestBody PatientDTO patientDTO,
+			@PathVariable(name = "patientId", required = true) Long patientId) {
+
+//		PatientDTO savedPatient = patientService.selectedPatientWithDTO(patientId);
+//
+//		if ((savedPatient == null)) {
+//			return ResponseEntity.notFound().build();
+//		}
+//
+//		savedPatient.setFirstName(patientDTO.getFirstName());
+//		savedPatient.setLastName(patientDTO.getLastName());
+//		savedPatient.setEmail(patientDTO.getEmail());
+//		savedPatient.setPassword(patientDTO.getPassword());
+//
+//		PatientDTO updatedPatient = patientMapper.toDTO(patientService.savePatientWithDTO(savedPatient));
+//
+//		if (updatedPatient != null) {
+//			return ResponseEntity.ok(updatedPatient);
+//		} else {
+//			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+//		}
+
+		try {
+			PatientDTO savedPatient = patientService.selectedPatientWithDTO(patientId);
+
+			if ((savedPatient == null)) {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Patient with ID " + patientId + " not found.");
+			}
+
+			savedPatient.setFirstName(patientDTO.getFirstName());
 			savedPatient.setLastName(patientDTO.getLastName());
 			savedPatient.setEmail(patientDTO.getEmail());
 			savedPatient.setPassword(patientDTO.getPassword());
-			
-	    	PatientDTO updatedPatient = patientMapper.toDTO(patientService.savePatientWithDTO(savedPatient));
 
-	    	if (updatedPatient != null) {
-	            return ResponseEntity.ok(updatedPatient);
-	        } else {
-	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-	        }
+			PatientDTO updatedPatient = patientMapper.toDTO(patientService.savePatientWithDTO(savedPatient));
+
+			if (updatedPatient != null) {
+				return ResponseEntity.ok(updatedPatient);
+			} else {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Patient with ID " + patientId + " not found.");
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("An error occurred while updating the patients.");
+
 		}
-	    
-	    
-	    
-	    
+
+	}
+
 }
