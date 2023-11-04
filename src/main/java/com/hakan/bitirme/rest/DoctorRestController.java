@@ -87,13 +87,13 @@ public class DoctorRestController {
 //	
 
 	@PostMapping("/saveDoctorResponse")
-	public ResponseEntity<String> saveDoctorResponse(@RequestBody DoctorDTO doctorDTO) {
+	public ResponseEntity<?> saveDoctorResponse(@RequestBody DoctorDTO doctorDTO) {
 
 		try {
 
 			if (doctorDTO != null) {
 				doctorService.saveDoctorWithDTO(doctorDTO);
-				return ResponseEntity.ok("Doctor saved successfully");
+				return ResponseEntity.ok(doctorDTO);
 			} else {
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("DoctorDTO is required");
 			}

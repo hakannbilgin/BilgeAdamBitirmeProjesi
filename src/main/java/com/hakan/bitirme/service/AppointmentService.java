@@ -136,6 +136,20 @@ public class AppointmentService {
 
 		return appointmentMapper.toDTO(appointment);
 	}
+	
+	
+	@CachePut(value = "appointments", key = "#appointmentId")
+	public Appointment selectedAppointmentbyIdWithDTO1(Long appointmentId) {
+
+		Appointment appointment = appointmentRepository.getAppointmentById(appointmentId);
+		if (appointment == null) {
+			System.out.println("Appointment was not found");
+			return null;
+
+		}
+
+		return appointment;
+	}
 
 	@Cacheable(value = "appointment_list")
 	public List<AppointmentDTO> getAppointmentListWithDTO() {
